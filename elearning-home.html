@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="หลักสูตรออนไลน์ - เรียนรู้ทักษะใหม่ๆ กับผู้เชี่ยวชาญ">
+<title>หลักสูตร — eLearning</title>
+<style>
+/* ============================================================
+   DESIGN TOKENS (from UApp v1.5)
+   ============================================================ */
+:root {
+  /* Brand / Primary (KTB) */
+  --primary-1: #00a6e6;
+  --primary-2: #00baef;
+  --primary-3: #0081c0;
+  --primary-4: #4cbced;
+  --primary-5: #22a5d5;
+  --primary-6: #9fcddf;
+  --primary-light: #e6f6fc;
+
+  /* Neutral */
+  --white: #FFFFFF;
+  --black: #212121;
+  --grey-900: #20232C;
+  --grey-700: #2B2F3B;
+  --grey-500: #565E76;
+  --grey-300: #A6ACBF;
+  --grey-dark: #838383;
+  --grey-darkest: #565656;
+  --grey-light: #E0E0E0;
+  --grey-lighter: #F2F2F2;
+
+  /* Text */
+  --text-primary: #212121;
+  --text-secondary: #565656;
+  --text-remark: #838383;
+
+  /* Surface */
+  --surface-white: #ffffff;
+  --surface-grey: #f2f2f2;
+
+  /* Border */
+  --border-on-white: #f2f2f2;
+
+  /* Status */
+  --status-success: #03c266;
+  --status-alert: #ff323b;
+  --status-info: #008bf5;
+  --status-pending: #ffbf00;
+
+  /* Spacing */
+  --space-0: 0px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Radius */
+  --radius-0: 0px;
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-24: 24px;
+  --radius-full: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.08);
+  --shadow-md: 0 2px 4px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 4px 6px rgba(0,0,0,0.05), 0 10px 15px rgba(0,0,0,0.1);
+  --navbar-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  /* Rating */
+  --star-color: #FFB800;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans Thai', 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-primary);
+  background: var(--surface-grey);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+.app-shell {
+  max-width: 430px;
+  margin: 0 auto;
+  background: var(--surface-white);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   APP BAR
+   ============================================================ */
+.app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 var(--space-16);
+  background: var(--surface-white);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--navbar-shadow);
+}
+
+.app-bar__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  transition: background 0.15s;
+}
+
+.app-bar__btn:hover {
+  background: var(--surface-grey);
+}
+
+.app-bar__btn:focus-visible {
+  outline: 2px solid var(--primary-1);
+  outline-offset: 2px;
+}
+
+.app-bar__btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.app-bar__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ============================================================
+   CONTENT AREA
+   ============================================================ */
+.content {
+  padding: var(--space-16);
+  padding-bottom: var(--space-32);
+}
+
+/* ============================================================
+   DEV TOGGLE
+   ============================================================ */
+.dev-toggle {
+  display: flex;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-16);
+  background: var(--grey-lighter);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-bottom: 1px solid var(--border-on-white);
+}
+
+.dev-toggle__btn {
+  flex-shrink: 0;
+  padding: var(--space-4) var(--space-12);
+  font-size: 11px;
+  font-family: monospace;
+  border: 1px solid var(--grey-light);
+  border-radius: var(--radius-4);
+  background: var(--surface-white);
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+
+.dev-toggle__btn:hover {
+  border-color: var(--primary-1);
+  color: var(--primary-1);
+}
+
+.dev-toggle__btn.active {
+  background: var(--primary-1);
+  color: var(--white);
+  border-color: var(--primary-1);
+}
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+.search {
+  position: relative;
+  margin-bottom: var(--space-24);
+}
+
+.search__input {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--space-16) 0 48px;
+  background: var(--surface-grey);
+  border: 2px solid transparent;
+  border-radius: var(--radius-12);
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text-primary);
+  transition: border-color 0.2s, background 0.2s;
+  outline: none;
+}
+
+.search__input::placeholder {
+  color: var(--text-remark);
+}
+
+.search__input:focus {
+  border-color: var(--primary-1);
+  background: var(--surface-white);
+}
+
+.search__input:focus-visible {
+  outline: none;
+}
+
+.search__icon {
+  position: absolute;
+  left: var(--space-16);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-remark);
+  pointer-events: none;
+}
+
+.search__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ============================================================
+   CATEGORY CHIPS
+   ============================================================ */
+.chips-section {
+  margin-bottom: var(--space-24);
+}
+
+.chips-scroll {
+  display: flex;
+  gap: var(--space-8);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: var(--space-4);
+}
+
+.chips-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 var(--space-16);
+  border: 1.5px solid var(--grey-light);
+  border-radius: var(--radius-full);
+  background: var(--surface-white);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chip:hover {
+  border-color: var(--primary-4);
+  color: var(--primary-1);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--primary-1);
+  outline-offset: 2px;
+}
+
+.chip.active {
+  background: var(--primary-1);
+  color: var(--white);
+  border-color: var(--primary-1);
+  font-weight: 500;
+}
+
+/* ============================================================
+   SECTION HEADER
+   ============================================================ */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-16);
+}
+
+.section-header__title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.section-header__action {
+  font-size: 14px;
+  color: var(--primary-1);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-8);
+  transition: background 0.15s;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.section-header__action:hover {
+  background: var(--primary-light);
+}
+
+.section-header__action:focus-visible {
+  outline: 2px solid var(--primary-1);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   INSTRUCTOR ROW
+   ============================================================ */
+.instructor-section {
+  margin-bottom: var(--space-24);
+}
+
+.instructor-scroll {
+  display: flex;
+  gap: var(--space-16);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: var(--space-4);
+}
+
+.instructor-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.instructor-item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  cursor: pointer;
+  padding: var(--space-4);
+  border-radius: var(--radius-12);
+  transition: background 0.15s;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.instructor-item:hover {
+  background: var(--surface-grey);
+}
+
+.instructor-item:focus-visible {
+  outline: 2px solid var(--primary-1);
+  outline-offset: 2px;
+}
+
+.instructor-item.active .instructor-avatar {
+  border-color: var(--primary-1);
+  box-shadow: 0 0 0 2px var(--primary-1);
+}
+
+.instructor-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 2px solid var(--grey-light);
+  background: var(--surface-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.instructor-avatar svg {
+  width: 32px;
+  height: 32px;
+  color: var(--text-remark);
+}
+
+.instructor-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+  width: 68px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   COURSE CARDS
+   ============================================================ */
+.courses-section {
+  margin-bottom: var(--space-24);
+}
+
+.course-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.course-card {
+  background: var(--surface-white);
+  border-radius: var(--radius-16);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-on-white);
+  transition: box-shadow 0.2s, transform 0.15s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.course-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.course-card:active {
+  transform: scale(0.985);
+}
+
+.course-card:focus-visible {
+  outline: 2px solid var(--primary-1);
+  outline-offset: 2px;
+}
+
+.course-card__thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--surface-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.course-card__thumb svg {
+  width: 48px;
+  height: 48px;
+  color: var(--grey-light);
+}
+
+.course-card__thumb-gradient {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+.course-card__badge {
+  position: absolute;
+  top: var(--space-8);
+  left: var(--space-8);
+  background: var(--primary-1);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 600;
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-4);
+  line-height: 1;
+}
+
+.course-card__bookmark {
+  position: absolute;
+  top: var(--space-8);
+  right: var(--space-8);
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-remark);
+  transition: color 0.2s, transform 0.15s;
+  z-index: 2;
+}
+
+.course-card__bookmark:hover {
+  transform: scale(1.1);
+}
+
+.course-card__bookmark.saved {
+  color: var(--primary-1);
+}
+
+.course-card__bookmark:focus-visible {
+  outline: 2px solid var(--primary-1);
+  outline-offset: 2px;
+}
+
+.course-card__bookmark svg {
+  width: 20px;
+  height: 20px;
+}
+
+.course-card__body {
+  padding: var(--space-12) var(--space-16) var(--space-16);
+}
+
+.course-card__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: var(--space-4);
+}
+
+.course-card__instructor {
+  font-size: 13px;
+  color: var(--text-remark);
+  margin-bottom: var(--space-8);
+}
+
+.course-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.course-card__meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.course-card__meta-item svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.course-card__rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.course-card__rating svg {
+  width: 12px;
+  height: 12px;
+  color: var(--star-color);
+}
+
+.course-card__rating-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-left: 2px;
+}
+
+/* ============================================================
+   PARTNER ROW
+   ============================================================ */
+.partner-section {
+  padding-top: var(--space-24);
+  border-top: 1px solid var(--border-on-white);
+}
+
+.partner-section .section-header__title {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-remark);
+}
+
+.partner-logos {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.partner-logo {
+  height: 28px;
+  padding: var(--space-4) var(--space-12);
+  background: var(--surface-grey);
+  border-radius: var(--radius-8);
+  font-size: 11px;
+  color: var(--text-remark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   SKELETON LOADING
+   ============================================================ */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--grey-lighter) 25%, #e8e8e8 50%, var(--grey-lighter) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-8);
+}
+
+.skeleton-chip {
+  width: 80px;
+  height: 40px;
+  border-radius: var(--radius-full);
+}
+
+.skeleton-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-full);
+}
+
+.skeleton-avatar-name {
+  width: 48px;
+  height: 12px;
+  border-radius: var(--radius-4);
+  margin-top: var(--space-8);
+}
+
+.skeleton-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-16) var(--radius-16) 0 0;
+}
+
+.skeleton-title {
+  height: 16px;
+  width: 80%;
+  margin-bottom: var(--space-8);
+}
+
+.skeleton-text {
+  height: 12px;
+  width: 60%;
+  margin-bottom: var(--space-8);
+}
+
+.skeleton-text-short {
+  height: 12px;
+  width: 40%;
+}
+
+.skeleton-card {
+  border-radius: var(--radius-16);
+  overflow: hidden;
+  border: 1px solid var(--border-on-white);
+  margin-bottom: var(--space-16);
+}
+
+.skeleton-card__body {
+  padding: var(--space-12) var(--space-16) var(--space-16);
+}
+
+.skeleton-search {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--radius-12);
+  margin-bottom: var(--space-24);
+}
+
+.skeleton-section-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-16);
+}
+
+.skeleton-section-title {
+  height: 18px;
+  width: 100px;
+}
+
+.skeleton-section-action {
+  height: 14px;
+  width: 60px;
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-32) var(--space-16);
+  text-align: center;
+  min-height: 320px;
+}
+
+.empty-state__icon {
+  width: 80px;
+  height: 80px;
+  background: var(--primary-light);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-24);
+}
+
+.empty-state__icon svg {
+  width: 40px;
+  height: 40px;
+  color: var(--primary-1);
+}
+
+.empty-state__title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-8);
+}
+
+.empty-state__desc {
+  font-size: 14px;
+  color: var(--text-remark);
+  max-width: 260px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   ERROR STATE
+   ============================================================ */
+.error-banner {
+  background: #FFF5F5;
+  border: 1px solid #FFD4D4;
+  border-radius: var(--radius-12);
+  padding: var(--space-16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-12);
+  text-align: center;
+  margin-bottom: var(--space-24);
+}
+
+.error-banner__icon {
+  width: 48px;
+  height: 48px;
+  background: #FFE8E8;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-banner__icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--status-alert);
+}
+
+.error-banner__text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.error-banner__retry {
+  height: 44px;
+  padding: 0 var(--space-24);
+  background: var(--primary-1);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.error-banner__retry:hover {
+  background: var(--primary-3);
+}
+
+.error-banner__retry:active {
+  transform: scale(0.97);
+}
+
+.error-banner__retry:focus-visible {
+  outline: 2px solid var(--primary-1);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="app-shell" id="app">
+  <!-- APP BAR -->
+  <header class="app-bar" role="banner">
+    <button class="app-bar__btn" aria-label="กลับ" onclick="history.back()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <h1 class="app-bar__title">หลักสูตร</h1>
+    <button class="app-bar__btn" aria-label="โปรไฟล์">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+    </button>
+  </header>
+
+  <!-- DEV TOGGLE -->
+  <nav class="dev-toggle" aria-label="สถานะการแสดงผล (dev)">
+    <button class="dev-toggle__btn active" data-state="default" onclick="setState('default')">default</button>
+    <button class="dev-toggle__btn" data-state="loading" onclick="setState('loading')">loading</button>
+    <button class="dev-toggle__btn" data-state="empty" onclick="setState('empty')">empty</button>
+    <button class="dev-toggle__btn" data-state="error" onclick="setState('error')">error</button>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="content" role="main" id="main-content">
+    <!-- Content injected via JS -->
+  </main>
+</div>
+
+<script>
+// ============================================================
+// MOCK DATA
+// ============================================================
+const CATEGORIES = [
+  { id: 'all', label: 'ทั้งหมด' },
+  { id: 'finance', label: 'การเงิน' },
+  { id: 'invest', label: 'การลงทุน' },
+  { id: 'tax', label: 'ภาษี' },
+  { id: 'accounting', label: 'บัญชี' },
+  { id: 'leadership', label: 'ภาวะผู้นำ' },
+  { id: 'digital', label: 'ดิจิทัล' },
+  { id: 'law', label: 'กฎหมาย' }
+];
+
+const INSTRUCTORS = [
+  { id: 'i1', name: 'ดร.สมชาย', initials: 'ส', color: '#00a6e6', categories: ['finance','invest'] },
+  { id: 'i2', name: 'อ.วิภา', initials: 'ว', color: '#03c266', categories: ['tax','accounting'] },
+  { id: 'i3', name: 'คุณณัฐ', initials: 'ณ', color: '#ff8c42', categories: ['invest','digital'] },
+  { id: 'i4', name: 'ดร.พิมพ์', initials: 'พ', color: '#9f7aea', categories: ['leadership'] },
+  { id: 'i5', name: 'อ.ธนา', initials: 'ธ', color: '#ed64a6', categories: ['finance','law'] },
+  { id: 'i6', name: 'คุณมาลี', initials: 'ม', color: '#22a5d5', categories: ['digital','finance'] },
+  { id: 'i7', name: 'ดร.อรุณ', initials: 'อ', color: '#0081c0', categories: ['accounting','tax'] }
+];
+
+const COURSES = [
+  { id: 'c1', title: 'พื้นฐานการวางแผนการเงินส่วนบุคคล', instructor: 'i1', category: 'finance', lessons: 12, duration: '6 ชม.', rating: 4.8, learners: 2340, badge: 'ยอดนิยม', thumbColor: '#e6f6fc', thumbEmoji: '💰' },
+  { id: 'c2', title: 'กลยุทธ์การลงทุนในกองทุนรวมสำหรับมือใหม่', instructor: 'i3', category: 'invest', lessons: 8, duration: '4 ชม.', rating: 4.6, learners: 1820, badge: null, thumbColor: '#fff3e0', thumbEmoji: '📈' },
+  { id: 'c3', title: 'การวางแผนภาษีอย่างมืออาชีพ', instructor: 'i2', category: 'tax', lessons: 10, duration: '5 ชม.', rating: 4.9, learners: 3100, badge: 'ใหม่', thumbColor: '#e8f5e9', thumbEmoji: '📋' },
+  { id: 'c4', title: 'บัญชีสำหรับผู้ประกอบการ SME', instructor: 'i7', category: 'accounting', lessons: 15, duration: '8 ชม.', rating: 4.5, learners: 980, badge: null, thumbColor: '#e3f2fd', thumbEmoji: '📊' },
+  { id: 'c5', title: 'ทักษะผู้นำยุคดิจิทัล', instructor: 'i4', category: 'leadership', lessons: 6, duration: '3 ชม.', rating: 4.7, learners: 1560, badge: null, thumbColor: '#f3e5f5', thumbEmoji: '🎯' },
+  { id: 'c6', title: 'การเงินดิจิทัลและ Blockchain เบื้องต้น', instructor: 'i6', category: 'digital', lessons: 9, duration: '4.5 ชม.', rating: 4.4, learners: 2100, badge: 'ยอดนิยม', thumbColor: '#e0f7fa', thumbEmoji: '🔗' },
+  { id: 'c7', title: 'กฎหมายธุรกิจที่ผู้ประกอบการต้องรู้', instructor: 'i5', category: 'law', lessons: 11, duration: '5.5 ชม.', rating: 4.3, learners: 750, badge: null, thumbColor: '#fce4ec', thumbEmoji: '⚖️' },
+  { id: 'c8', title: 'วิเคราะห์หุ้นเชิงเทคนิคเบื้องต้น', instructor: 'i1', category: 'invest', lessons: 14, duration: '7 ชม.', rating: 4.8, learners: 2890, badge: null, thumbColor: '#e8eaf6', thumbEmoji: '📉' }
+];
+
+const PARTNERS = ['Krungthai', 'UNESCO', 'Dharmniti', 'TBC'];
+
+// ============================================================
+// STATE
+// ============================================================
+let appState = new URLSearchParams(window.location.search).get('state') || 'default';
+let activeCategory = 'all';
+let activeInstructor = null;
+let searchQuery = '';
+let bookmarked = new Set();
+
+// ============================================================
+// SVG ICONS (inline)
+// ============================================================
+const ICONS = {
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>',
+  lessons: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  bookmarkOutline: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>',
+  bookmarkFilled: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>',
+  empty: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><line x1="9" y1="10" x2="15" y2="10"/></svg>',
+  error: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+};
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  const main = document.getElementById('main-content');
+
+  if (appState === 'loading') {
+    main.innerHTML = renderLoading();
+    return;
+  }
+
+  if (appState === 'error') {
+    main.innerHTML = renderError();
+    return;
+  }
+
+  if (appState === 'empty') {
+    main.innerHTML = renderSearch() + renderChips() + renderEmpty();
+    bindSearch();
+    bindChips();
+    return;
+  }
+
+  // Default
+  const filtered = getFilteredCourses();
+  main.innerHTML = renderSearch() + renderChips() + renderInstructors() + renderCourses(filtered) + renderPartners();
+  bindSearch();
+  bindChips();
+  bindInstructors();
+  bindBookmarks();
+}
+
+function getFilteredCourses() {
+  let list = [...COURSES];
+
+  if (activeCategory !== 'all') {
+    list = list.filter(c => c.category === activeCategory);
+  }
+
+  if (activeInstructor) {
+    list = list.filter(c => c.instructor === activeInstructor);
+  }
+
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(c => {
+      const inst = INSTRUCTORS.find(i => i.id === c.instructor);
+      return c.title.toLowerCase().includes(q) || (inst && inst.name.toLowerCase().includes(q));
+    });
+  }
+
+  return list;
+}
+
+// ============================================================
+// RENDER: SEARCH
+// ============================================================
+function renderSearch() {
+  return `
+    <div class="search">
+      <span class="search__icon" aria-hidden="true">${ICONS.search}</span>
+      <input
+        class="search__input"
+        type="search"
+        id="searchInput"
+        placeholder="ค้นหาหลักสูตรหรือผู้สอน"
+        aria-label="ค้นหาหลักสูตรหรือผู้สอน"
+        value="${escapeHtml(searchQuery)}"
+        autocomplete="off"
+      >
+    </div>
+  `;
+}
+
+// ============================================================
+// RENDER: CHIPS
+// ============================================================
+function renderChips() {
+  const chips = CATEGORIES.map(cat => `
+    <button
+      class="chip${activeCategory === cat.id ? ' active' : ''}"
+      data-category="${cat.id}"
+      role="tab"
+      aria-selected="${activeCategory === cat.id}"
+      aria-label="หมวดหมู่: ${cat.label}"
+    >${cat.label}</button>
+  `).join('');
+
+  return `
+    <div class="chips-section" role="tablist" aria-label="หมวดหมู่หลักสูตร">
+      <div class="chips-scroll">${chips}</div>
+    </div>
+  `;
+}
+
+// ============================================================
+// RENDER: INSTRUCTORS
+// ============================================================
+function renderInstructors() {
+  const items = INSTRUCTORS.map(inst => `
+    <button
+      class="instructor-item${activeInstructor === inst.id ? ' active' : ''}"
+      data-instructor="${inst.id}"
+      aria-label="ผู้สอน: ${inst.name}"
+      aria-pressed="${activeInstructor === inst.id}"
+    >
+      <div class="instructor-avatar" style="background: ${inst.color}15">
+        <svg viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="30" fill="${inst.color}22"/>
+          <text x="30" y="35" text-anchor="middle" font-size="22" font-weight="600" fill="${inst.color}" font-family="inherit">${inst.initials}</text>
+        </svg>
+      </div>
+      <span class="instructor-name">${inst.name}</span>
+    </button>
+  `).join('');
+
+  return `
+    <section class="instructor-section" aria-label="ผู้สอน">
+      <div class="section-header">
+        <h2 class="section-header__title">ผู้สอน</h2>
+        <button class="section-header__action" aria-label="ดูผู้สอนทั้งหมด">ดูทั้งหมด</button>
+      </div>
+      <div class="instructor-scroll">${items}</div>
+    </section>
+  `;
+}
+
+// ============================================================
+// RENDER: COURSES
+// ============================================================
+function renderCourses(courses) {
+  if (courses.length === 0) {
+    return renderEmpty();
+  }
+
+  const cards = courses.map(c => {
+    const inst = INSTRUCTORS.find(i => i.id === c.instructor);
+    const isSaved = bookmarked.has(c.id);
+
+    return `
+    <article class="course-card" tabindex="0" role="article" aria-label="${c.title}">
+      <div class="course-card__thumb" style="background: ${c.thumbColor}">
+        <div class="course-card__thumb-gradient">${c.thumbEmoji}</div>
+        ${c.badge ? `<span class="course-card__badge">${c.badge}</span>` : ''}
+        <button
+          class="course-card__bookmark${isSaved ? ' saved' : ''}"
+          data-course-id="${c.id}"
+          aria-label="${isSaved ? 'ยกเลิกบันทึก' : 'บันทึก'}หลักสูตร"
+          aria-pressed="${isSaved}"
+        >
+          ${isSaved ? ICONS.bookmarkFilled : ICONS.bookmarkOutline}
+        </button>
+      </div>
+      <div class="course-card__body">
+        <h3 class="course-card__title">${c.title}</h3>
+        <p class="course-card__instructor">${inst ? inst.name : ''}</p>
+        <div class="course-card__meta">
+          <span class="course-card__meta-item">${ICONS.lessons} ${c.lessons} บท</span>
+          <span class="course-card__meta-item">${ICONS.clock} ${c.duration}</span>
+          <span class="course-card__meta-item">
+            <span class="course-card__rating">
+              ${ICONS.star}
+              <span class="course-card__rating-text">${c.rating}</span>
+            </span>
+          </span>
+          <span class="course-card__meta-item">${ICONS.users} ${c.learners.toLocaleString()}</span>
+        </div>
+      </div>
+    </article>
+    `;
+  }).join('');
+
+  return `
+    <section class="courses-section" aria-label="หลักสูตรยอดนิยม">
+      <div class="section-header">
+        <h2 class="section-header__title">หลักสูตรยอดนิยม</h2>
+      </div>
+      <div class="course-list">${cards}</div>
+    </section>
+  `;
+}
+
+// ============================================================
+// RENDER: PARTNERS
+// ============================================================
+function renderPartners() {
+  const logos = PARTNERS.map(p => `<div class="partner-logo">${p}</div>`).join('');
+  return `
+    <section class="partner-section" aria-label="พันธมิตร">
+      <div class="section-header">
+        <span class="section-header__title">พันธมิตร</span>
+      </div>
+      <div class="partner-logos">${logos}</div>
+    </section>
+  `;
+}
+
+// ============================================================
+// RENDER: LOADING
+// ============================================================
+function renderLoading() {
+  return `
+    <div class="skeleton-search skeleton" aria-hidden="true"></div>
+
+    <div class="chips-section" style="margin-bottom:24px">
+      <div class="chips-scroll">
+        ${Array(6).fill(0).map(() => '<div class="skeleton skeleton-chip"></div>').join('')}
+      </div>
+    </div>
+
+    <div class="skeleton-section-header" style="margin-bottom:16px">
+      <div class="skeleton skeleton-section-title"></div>
+      <div class="skeleton skeleton-section-action"></div>
+    </div>
+    <div style="display:flex;gap:16px;margin-bottom:24px">
+      ${Array(5).fill(0).map(() => '<div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div class="skeleton skeleton-avatar"></div><div class="skeleton skeleton-avatar-name"></div></div>').join('')}
+    </div>
+
+    <div class="skeleton-section-header" style="margin-bottom:16px">
+      <div class="skeleton skeleton-section-title" style="width:140px"></div>
+    </div>
+    ${Array(3).fill(0).map(() => `
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-thumb"></div>
+        <div class="skeleton-card__body">
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text-short"></div>
+        </div>
+      </div>
+    `).join('')}
+
+    <span class="visually-hidden" role="status" aria-live="polite">กำลังโหลดข้อมูล...</span>
+  `;
+}
+
+// ============================================================
+// RENDER: EMPTY
+// ============================================================
+function renderEmpty() {
+  return `
+    <div class="empty-state" role="status">
+      <div class="empty-state__icon">${ICONS.empty}</div>
+      <p class="empty-state__title">ยังไม่พบหลักสูตร</p>
+      <p class="empty-state__desc">ลองเลือกหมวดหมู่หรือค้นหาอีกครั้ง</p>
+    </div>
+  `;
+}
+
+// ============================================================
+// RENDER: ERROR
+// ============================================================
+function renderError() {
+  return `
+    <div class="error-banner" role="alert">
+      <div class="error-banner__icon">${ICONS.error}</div>
+      <p class="error-banner__text">ขออภัย ระบบไม่สามารถโหลดข้อมูลได้</p>
+      <button class="error-banner__retry" onclick="setState('default')" aria-label="ลองโหลดข้อมูลใหม่">ลองใหม่</button>
+    </div>
+  `;
+}
+
+// ============================================================
+// BINDINGS
+// ============================================================
+function bindSearch() {
+  const input = document.getElementById('searchInput');
+  if (!input) return;
+  let timer;
+  input.addEventListener('input', (e) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      searchQuery = e.target.value.trim();
+      // Re-render courses only
+      const filtered = getFilteredCourses();
+      const coursesEl = document.querySelector('.courses-section');
+      const emptyEl = document.querySelector('.empty-state');
+      if (coursesEl) coursesEl.remove();
+      if (emptyEl) emptyEl.remove();
+      const partnersEl = document.querySelector('.partner-section');
+      if (partnersEl) partnersEl.remove();
+      const main = document.getElementById('main-content');
+      const instSection = document.querySelector('.instructor-section');
+      const html = renderCourses(filtered) + (filtered.length ? renderPartners() : '');
+      if (instSection) {
+        instSection.insertAdjacentHTML('afterend', html);
+      } else {
+        main.insertAdjacentHTML('beforeend', html);
+      }
+      bindBookmarks();
+    }, 200);
+  });
+}
+
+function bindChips() {
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      activeCategory = chip.dataset.category;
+      activeInstructor = null;
+      render();
+    });
+  });
+}
+
+function bindInstructors() {
+  document.querySelectorAll('.instructor-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const id = item.dataset.instructor;
+      activeInstructor = activeInstructor === id ? null : id;
+      render();
+    });
+  });
+}
+
+function bindBookmarks() {
+  document.querySelectorAll('.course-card__bookmark').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.courseId;
+      if (bookmarked.has(id)) {
+        bookmarked.delete(id);
+      } else {
+        bookmarked.add(id);
+      }
+      const isSaved = bookmarked.has(id);
+      btn.innerHTML = isSaved ? ICONS.bookmarkFilled : ICONS.bookmarkOutline;
+      btn.classList.toggle('saved', isSaved);
+      btn.setAttribute('aria-pressed', isSaved);
+      btn.setAttribute('aria-label', (isSaved ? 'ยกเลิกบันทึก' : 'บันทึก') + 'หลักสูตร');
+    });
+  });
+}
+
+// ============================================================
+// STATE MANAGEMENT
+// ============================================================
+function setState(state) {
+  appState = state;
+  // Update dev toggle buttons
+  document.querySelectorAll('.dev-toggle__btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.state === state);
+  });
+  // Update URL without reload
+  const url = new URL(window.location);
+  if (state === 'default') {
+    url.searchParams.delete('state');
+  } else {
+    url.searchParams.set('state', state);
+  }
+  history.replaceState(null, '', url);
+  // Reset filters for clean states
+  if (state !== 'default') {
+    activeCategory = 'all';
+    activeInstructor = null;
+    searchQuery = '';
+  }
+  render();
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Sync dev toggle with URL
+  document.querySelectorAll('.dev-toggle__btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.state === appState);
+  });
+  render();
+});
+</script>
+
+</body>
+</html>
